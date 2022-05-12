@@ -415,14 +415,6 @@ df.loc[(df['Contract'] == "Month-to-month" ), "NEW_CONTRACT"] = 1
 df.loc[(df['Contract'] == "One year" ), "NEW_CONTRACT"] = 12
 df.loc[(df['Contract'] == "Two year" ), "NEW_CONTRACT"] = 24
 
-# Contract süresi bitmeden churn olanları aldığı hizmetten memnun kalmamış sayabiliriz.
-
-df.loc[(df["NEW_CONTRACT"]==1) & (df["tenure"]<=2) & (df["Churn"]==1), "NEW_DISSATISFACTION1"] = 1
-df.loc[(df["NEW_CONTRACT"]==12) & (df["tenure"]<=12) & (df["Churn"]==1), "NEW_DISSATISFACTION1"] = 1
-df.loc[(df["NEW_CONTRACT"]==24) & (df["tenure"]<=24) & (df["Churn"]==1), "NEW_DISSATISFACTION1"] = 1
-df["NEW_DISSATISFACTION1"] = df["NEW_DISSATISFACTION1"].fillna(0)
-df["NEW_DISSATISFACTION1"].value_counts()
-
 
 df.head()
 df.shape
@@ -469,7 +461,7 @@ df.head()
 ##################################
 
 y = df["Churn"]
-X = df.drop(["Churn","customerID","tenure"], axis=1)
+X = df.drop(["Churn","customerID"], axis=1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=17)
 
